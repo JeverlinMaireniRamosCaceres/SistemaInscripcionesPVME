@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "nft"
+
+[dev]
+  port = 9000

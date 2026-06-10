@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inscripción | Politécnico Víctor Manuel Espaillat</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="estilos.css">
-<script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.4/dist/pizzip.min.js"></script>
-<script src="https://unpkg.com/docxtemplater@3.45.0/build/docxtemplater.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscripción | Politécnico Víctor Manuel Espaillat</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+  <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.4/dist/pizzip.min.js"></script>
+  <script src="https://unpkg.com/docxtemplater@3.45.0/build/docxtemplater.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 </head>
+
 <body>
 
-<header class="site-header">
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <circle cx="16" cy="16" r="16" fill="#1a3a5c"/>
-    <text x="16" y="21" text-anchor="middle" font-size="14" font-family="serif" fill="white" font-weight="bold">PE</text>
-  </svg>
-  <h1>Politécnico Víctor Manuel Espaillat
-    <span>Sistema de Inscripción Estudiantil</span>
-  </h1>
-  <div class="header-badge">FORM. CE No. 009</div>
-</header>
+  <header class="site-header">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="16" fill="#1a3a5c" />
+      <text x="16" y="21" text-anchor="middle" font-size="14" font-family="serif" fill="white"
+        font-weight="bold">PE</text>
+    </svg>
+    <h1>Politécnico Víctor Manuel Espaillat
+      <span>Sistema de Inscripción Estudiantil</span>
+    </h1>
+    <div class="header-badge">FORM. CE No. 009</div>
+  </header>
 
-<!-- LOGIN -->
+  <!-- LOGIN -->
 
-<!--<div id="login-screen">
+  <!--<div id="login-screen">
   <div class="login-card">
     <h2>Iniciar sesión</h2>
     <p>Accede con la cuenta Google del plantel para guardar los formularios automáticamente en Google Drive.</p>
@@ -41,286 +46,363 @@
   </div>
 </div>-->
 
-<!-- FORMULARIO -->
+  <!-- FORMULARIO -->
 
-<div id="form-screen">
-  <div class="status-bar">
-    <span>👤</span>
-    <span class="user-info" id="user-display">—</span>
-    <span style="color:var(--border)">|</span>
-    <span class="drive-info">📁 Google Drive → Inscripciones 2026 - 2027</span>
-    <span class="counter" id="counter">Guardados: 0</span>
-  </div>
+  <div id="form-screen">
+    <div class="status-bar">
+      <span>👤</span>
+      <span class="user-info" id="user-display">—</span>
+      <span style="color:var(--border)">|</span>
+      <span class="drive-info">📁 Google Drive → Inscripciones 2026 - 2027</span>
+      <span class="counter" id="counter">Guardados: 0</span>
+    </div>
 
-  <!-- INSTITUCIÓN -->
+    <!-- INSTITUCIÓN -->
 
-  <div class="form-section">
-    <div class="section-header">📋 Datos de la institución</div>
-    <div class="section-body">
-      <div class="grid-3">
-        <div class="field">
-          <label>Grado al que solicita</label>
-          <select id="grado">
-            <option>1ro</option><option>2do</option><option>3ro</option>
-            <option>4to</option><option selected>5to</option><option>6to</option>
-          </select>
+    <div class="form-section">
+      <div class="section-header">📋 Datos de la institución</div>
+      <div class="section-body">
+        <div class="grid-3">
+          <div class="field">
+            <label>Grado al que solicita</label>
+            <select id="grado">
+              <option>1ro</option>
+              <option>2do</option>
+              <option>3ro</option>
+              <option>4to</option>
+              <option selected>5to</option>
+              <option>6to</option>
+            </select>
+          </div>
+          <div class="field"><label>Modalidad</label><input type="text" value="Técnico" readonly></div>
+          <div class="field"><label>Nivel</label><input type="text" value="Secundario" readonly></div>
         </div>
-        <div class="field"><label>Modalidad</label><input type="text" value="Técnico" readonly></div>
-        <div class="field"><label>Nivel</label><input type="text" value="Secundario" readonly></div>
       </div>
     </div>
-  </div>
 
-  <!-- ESTUDIANTE -->
+    <!-- ESTUDIANTE -->
 
-  <div class="form-section">
-    <div class="section-header">🎓 Datos del estudiante</div>
-    <div class="section-body">
-      <div class="grid-4">
-        <div class="field"><label>Primer nombre *</label><input type="text" id="primer_nombre" required></div>
-        <div class="field"><label>Segundo nombre</label><input type="text" id="segundo_nombre"></div>
-        <div class="field"><label>Primer apellido *</label><input type="text" id="primer_apellido" required></div>
-        <div class="field"><label>Segundo apellido</label><input type="text" id="segundo_apellido"></div>
-      </div>
-      <div class="grid-4" style="margin-top:14px">
-
-        <!-- cedula con formato automatico -->
-        <div class="field">
-          <label>Cédula</label>
-          <input type="text" id="cedula" placeholder="000-0000000-0" maxlength="13" inputmode="numeric">
+    <div class="form-section">
+      <div class="section-header">🎓 Datos del estudiante</div>
+      <div class="section-body">
+        <div class="grid-4">
+          <div class="field"><label>Primer nombre *</label><input type="text" id="primer_nombre" required></div>
+          <div class="field"><label>Segundo nombre</label><input type="text" id="segundo_nombre"></div>
+          <div class="field"><label>Primer apellido *</label><input type="text" id="primer_apellido" required></div>
+          <div class="field"><label>Segundo apellido</label><input type="text" id="segundo_apellido"></div>
         </div>
+        <div class="grid-4" style="margin-top:14px">
 
-        <!-- fecha de nacimiento, se calcula la edad automaticamente  -->
-        <div class="field">
-          <label>Fecha de nacimiento</label>
-          <input type="date" id="fecha_nacimiento" onchange="calcularEdad()">
-        </div>
+          <!-- cedula con formato automatico -->
+          <div class="field">
+            <label>Cédula</label>
+            <input type="text" id="cedula" placeholder="000-0000000-0" maxlength="13" inputmode="numeric">
+          </div>
 
-        <!-- edad calculada solo lectura -->
-        <div class="field">
-          <label>Edad <span style="font-weight:400;text-transform:none;font-size:0.7rem;color:var(--muted)">(auto)</span></label>
-          <input type="number" id="edad" readonly style="background:#f8fafc;color:var(--muted)">
+          <!-- fecha de nacimiento, se calcula la edad automaticamente  -->
+          <div class="field">
+            <label>Fecha de nacimiento</label>
+            <input type="text" id="fecha_nacimiento" placeholder="dd/mm/aaaa" maxlength="10">
+          </div>
+
+          <!-- edad calculada solo lectura -->
+          <div class="field">
+            <label>Edad <span
+                style="font-weight:400;text-transform:none;font-size:0.7rem;color:var(--muted)">(auto)</span></label>
+            <input type="number" id="edad" readonly style="background:#f8fafc;color:var(--muted)">
+          </div>
+          <div class="field"><label>Sexo</label><select id="sexo">
+              <option>Masculino</option>
+              <option>Femenino</option>
+            </select></div>
         </div>
-        <div class="field"><label>Sexo</label><select id="sexo"><option>Masculino</option><option>Femenino</option></select></div>
-      </div>
-      <div class="grid-4" style="margin-top:14px">
-        <div class="field"><label>Nacionalidad</label><input type="text" id="nacionalidad" value="Dominicana"></div>
-        <div class="field"><label>Pasaporte</label><input type="text" id="pasaporte"></div>
-        <div class="field"><label>Teléfono</label><input type="tel" id="telefono_estudiante" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        
-        <!-- correo con autocompletado de dominio -->
-        <div class="field correo-field">
-          <label>Correo electrónico</label>
-          <div class="correo-wrapper">
-            <input type="text" id="correo_estudiante" placeholder="usuario@gmail.com" autocomplete="off">
-            <div class="correo-suggestions" id="correo_estudiante_sugg"></div>
+        <div class="grid-4" style="margin-top:14px">
+          <div class="field"><label>Nacionalidad</label><input type="text" id="nacionalidad" value="Dominicana"></div>
+          <div class="field"><label>Pasaporte</label><input type="text" id="pasaporte"></div>
+          <div class="field"><label>Teléfono</label><input type="tel" id="telefono_estudiante"
+              placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
+
+          <!-- correo con autocompletado de dominio -->
+          <div class="field correo-field">
+            <label>Correo electrónico</label>
+            <div class="correo-wrapper">
+              <input type="text" id="correo_estudiante" placeholder="usuario@gmail.com" autocomplete="off">
+              <div class="correo-suggestions" id="correo_estudiante_sugg"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ACTA -->
-  <div class="form-section">
-    <div class="section-header">📄 Datos del acta de nacimiento</div>
-    <div class="section-body">
-      <div class="grid-7">
-        <div class="field"><label>Provincia</label><input type="text" id="acta_provincia"></div>
-        <div class="field"><label>Municipio</label><input type="text" id="acta_municipio"></div>
-        <div class="field"><label>Oficialía</label><input type="text" id="acta_oficialia"></div>
-        <div class="field"><label>Libro</label><input type="text" id="acta_libro"></div>
-        <div class="field"><label>Folio</label><input type="text" id="acta_folio"></div>
-        <div class="field"><label>N° Acta</label><input type="text" id="acta_numero"></div>
-        <div class="field"><label>Año</label><input type="text" id="acta_anio"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIRECCION -->
-  <div class="form-section">
-    <div class="section-header">🏠 Dirección</div>
-    <div class="section-body">
-      <div class="grid-3">
-        <div class="field"><label>Calle</label><input type="text" id="dir_calle"></div>
-        <div class="field"><label>Barrio</label><input type="text" id="dir_barrio"></div>
-        <div class="field"><label>Provincia</label><input type="text" id="dir_provincia"></div>
-      </div>
-      <div class="grid-4" style="margin-top:14px">
-        <div class="field"><label>Municipio</label><input type="text" id="dir_municipio"></div>
-        <div class="field"><label>No. Casa</label><input type="text" id="dir_no_casa"></div>
-        <div class="field"><label>Teléfono</label><input type="tel" id="dir_telefono" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Celular</label><input type="tel" id="dir_celular" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PADRE -->
-  <div class="form-section">
-    <div class="section-header">👨 Datos del padre</div>
-    <div class="section-body">
-      <div class="grid-2">
-        <div class="field"><label>Nombres</label><input type="text" id="padre_nombres"></div>
-        <div class="field"><label>Apellidos</label><input type="text" id="padre_apellidos"></div>
-      </div>
-      <div class="grid-3" style="margin-top:14px">
-        <div class="field"><label>Cédula</label><input type="text" id="padre_cedula" placeholder="000-0000000-0" maxlength="13" inputmode="numeric"></div>
-        <div class="field"><label>Nivel académico</label>
-          <select id="padre_nivel"><option value="">— Seleccionar —</option><option>Primario</option><option>Secundario</option><option>Técnico</option><option>Universitario</option><option>Postgrado</option><option>Ninguno</option></select>
-        </div>
-        <div class="field"><label>Profesión u Oficio</label><input type="text" id="padre_profesion"></div>
-      </div>
-      <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="padre_direccion"></div>
-      <div class="grid-4" style="margin-top:14px">
-        <div class="field"><label>Tel. Casa</label><input type="tel" id="padre_tel_casa" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Celular</label><input type="tel" id="padre_celular" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Tel. Trabajo</label><input type="tel" id="padre_tel_trabajo" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field correo-field"><label>Correo</label>
-          <div class="correo-wrapper"><input type="text" id="padre_correo" placeholder="usuario@gmail.com" autocomplete="off"><div class="correo-suggestions" id="padre_correo_sugg"></div></div>
+    <!-- ACTA -->
+    <div class="form-section">
+      <div class="section-header">📄 Datos del acta de nacimiento</div>
+      <div class="section-body">
+        <div class="grid-7">
+          <div class="field"><label>Provincia</label><input type="text" id="acta_provincia"></div>
+          <div class="field"><label>Municipio</label><input type="text" id="acta_municipio"></div>
+          <div class="field"><label>Oficialía</label><input type="text" id="acta_oficialia"></div>
+          <div class="field"><label>Libro</label><input type="text" id="acta_libro"></div>
+          <div class="field"><label>Folio</label><input type="text" id="acta_folio"></div>
+          <div class="field"><label>N° Acta</label><input type="text" id="acta_numero"></div>
+          <div class="field"><label>Año</label><input type="text" id="acta_anio"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- MADRE -->
-  <div class="form-section">
-    <div class="section-header">👩 Datos de la Madre</div>
-    <div class="section-body">
-      <div class="grid-2">
-        <div class="field"><label>Nombres</label><input type="text" id="madre_nombres"></div>
-        <div class="field"><label>Apellidos</label><input type="text" id="madre_apellidos"></div>
-      </div>
-      <div class="grid-3" style="margin-top:14px">
-        <div class="field"><label>Cédula</label><input type="text" id="madre_cedula" placeholder="000-0000000-0" maxlength="13" inputmode="numeric"></div>
-        <div class="field"><label>Nivel académico</label>
-          <select id="madre_nivel"><option value="">— Seleccionar —</option><option>Primario</option><option>Secundario</option><option>Técnico</option><option>Universitario</option><option>Postgrado</option><option>Ninguno</option></select>
+    <!-- DIRECCION -->
+    <div class="form-section">
+      <div class="section-header">🏠 Dirección</div>
+      <div class="section-body">
+        <div class="grid-3">
+          <div class="field"><label>Calle</label><input type="text" id="dir_calle"></div>
+          <div class="field"><label>Barrio</label><input type="text" id="dir_barrio"></div>
+          <div class="field"><label>Provincia</label><input type="text" id="dir_provincia"></div>
         </div>
-        <div class="field"><label>Profesión u oficio</label><input type="text" id="madre_profesion"></div>
-      </div>
-      <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="madre_direccion"></div>
-      <div class="grid-4" style="margin-top:14px">
-        <div class="field"><label>Tel. Casa</label><input type="tel" id="madre_tel_casa" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Celular</label><input type="tel" id="madre_celular" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Tel. Trabajo</label><input type="tel" id="madre_tel_trabajo" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field correo-field"><label>Correo</label>
-          <div class="correo-wrapper"><input type="text" id="madre_correo" placeholder="usuario@gmail.com" autocomplete="off"><div class="correo-suggestions" id="madre_correo_sugg"></div></div>
+        <div class="grid-4" style="margin-top:14px">
+          <div class="field"><label>Municipio</label><input type="text" id="dir_municipio"></div>
+          <div class="field"><label>No. Casa</label><input type="text" id="dir_no_casa"></div>
+          <div class="field"><label>Teléfono</label><input type="tel" id="dir_telefono" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Celular</label><input type="tel" id="dir_celular" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- TUTOR -->
-  <div class="form-section">
-    <div class="section-header">👤 Datos del Tutor <span style="font-weight:300;font-size:0.8rem">(solo si no vive con los padres)</span></div>
-    <div class="section-body">
-      <div class="grid-4">
-        <div class="field col-span-2"><label>Nombres</label><input type="text" id="tutor_nombres"></div>
-        <div class="field"><label>Parentesco</label><input type="text" id="tutor_parentesco"></div>
-        <div class="field"><label>Cédula</label><input type="text" id="tutor_cedula" placeholder="000-0000000-0" maxlength="13" inputmode="numeric"></div>
-      </div>
-      <div class="grid-3" style="margin-top:14px">
-        <div class="field"><label>Apellidos</label><input type="text" id="tutor_apellidos"></div>
-        <div class="field"><label>Nivel académico</label>
-          <select id="tutor_nivel"><option value="">— Seleccionar —</option><option>Primario</option><option>Secundario</option><option>Técnico</option><option>Universitario</option><option>Postgrado</option><option>Ninguno</option></select>
+    <!-- PADRE -->
+    <div class="form-section">
+      <div class="section-header">👨 Datos del padre</div>
+      <div class="section-body">
+        <div class="grid-2">
+          <div class="field"><label>Nombres</label><input type="text" id="padre_nombres"></div>
+          <div class="field"><label>Apellidos</label><input type="text" id="padre_apellidos"></div>
         </div>
-        <div class="field"><label>Profesión u oficio</label><input type="text" id="tutor_profesion"></div>
-      </div>
-      <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="tutor_direccion"></div>
-      <div class="grid-4" style="margin-top:14px">
-        <div class="field"><label>Tel. Casa</label><input type="tel" id="tutor_tel_casa" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Celular</label><input type="tel" id="tutor_celular" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Tel. Trabajo</label><input type="tel" id="tutor_tel_trabajo" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field correo-field"><label>Correo</label>
-          <div class="correo-wrapper"><input type="text" id="tutor_correo" placeholder="usuario@gmail.com" autocomplete="off"><div class="correo-suggestions" id="tutor_correo_sugg"></div></div>
+        <div class="grid-3" style="margin-top:14px">
+          <div class="field"><label>Cédula</label><input type="text" id="padre_cedula" placeholder="000-0000000-0"
+              maxlength="13" inputmode="numeric"></div>
+          <div class="field"><label>Nivel académico</label>
+            <select id="padre_nivel">
+              <option value="">— Seleccionar —</option>
+              <option>Primario</option>
+              <option>Secundario</option>
+              <option>Técnico</option>
+              <option>Universitario</option>
+              <option>Postgrado</option>
+              <option>Ninguno</option>
+            </select>
+          </div>
+          <div class="field"><label>Profesión u Oficio</label><input type="text" id="padre_profesion"></div>
+        </div>
+        <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="padre_direccion">
+        </div>
+        <div class="grid-4" style="margin-top:14px">
+          <div class="field"><label>Tel. Casa</label><input type="tel" id="padre_tel_casa" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Celular</label><input type="tel" id="padre_celular" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Tel. Trabajo</label><input type="tel" id="padre_tel_trabajo"
+              placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
+          <div class="field correo-field"><label>Correo</label>
+            <div class="correo-wrapper"><input type="text" id="padre_correo" placeholder="usuario@gmail.com"
+                autocomplete="off">
+              <div class="correo-suggestions" id="padre_correo_sugg"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- HISTORIA CLINICA -->
-  <div class="form-section">
-    <div class="section-header">🏥 Historia clínica</div>
-    <div class="section-body">
-      <div class="grid-2">
-        <div class="field"><label>Enfermedad que padece</label><input type="text" id="enfermedad"></div>
-        <div class="field"><label>¿Ha sido vacunado?</label><select id="vacunado"><option>Sí</option><option>No</option></select></div>
-      </div>
-      <div class="subsection-title" style="margin-top:18px">Enfermedades</div>
-      <div class="check-group">
-        <label class="check-item"><input type="checkbox" id="enf_alergia"> Alergia</label>
-        <label class="check-item"><input type="checkbox" id="enf_diabetes"> Diabetes</label>
-        <label class="check-item"><input type="checkbox" id="enf_asma"> Asma</label>
-        <label class="check-item"><input type="checkbox" id="enf_hepatitis"> Hepatitis</label>
-      </div>
-      <div class="grid-2" style="margin-top:10px">
-        <label class="check-item"><input type="checkbox" id="enf_otra"> Otra enfermedad</label>
-        <div class="field"><input type="text" id="enf_otra_desc" placeholder="Especificar..."></div>
-      </div>
-      <div class="subsection-title" style="margin-top:18px">Vacunas</div>
-      <div class="check-group">
-        <label class="check-item"><input type="checkbox" id="vac_antipolio"> Antipolio</label>
-        <label class="check-item"><input type="checkbox" id="vac_antisarampion"> Antisarampión</label>
-        <label class="check-item"><input type="checkbox" id="vac_difteria1"> Difteria/Tétano 1</label>
-        <label class="check-item"><input type="checkbox" id="vac_difteria2"> Difteria/Tétano 2</label>
-        <label class="check-item"><input type="checkbox" id="vac_difteria3"> Difteria/Tétano 3</label>
-        <label class="check-item"><input type="checkbox" id="vac_gripe"> Gripe AH1N1</label>
-        <label class="check-item"><input type="checkbox" id="vac_hepatitis"> Hepatitis</label>
-        <label class="check-item"><input type="checkbox" id="vac_meningitis"> Meningitis</label>
-        <label class="check-item"><input type="checkbox" id="vac_tuberculosis"> Tuberculosis</label>
-      </div>
-      <div class="field" style="margin-top:12px; max-width:200px">
-        <label>Covid-19 — Dosis</label>
-        <select id="vac_covid_dosis"><option value="0">Ninguna</option><option value="1">1</option><option value="2">2</option><option value="3">3 o más</option></select>
+    <!-- MADRE -->
+    <div class="form-section">
+      <div class="section-header">👩 Datos de la Madre</div>
+      <div class="section-body">
+        <div class="grid-2">
+          <div class="field"><label>Nombres</label><input type="text" id="madre_nombres"></div>
+          <div class="field"><label>Apellidos</label><input type="text" id="madre_apellidos"></div>
+        </div>
+        <div class="grid-3" style="margin-top:14px">
+          <div class="field"><label>Cédula</label><input type="text" id="madre_cedula" placeholder="000-0000000-0"
+              maxlength="13" inputmode="numeric"></div>
+          <div class="field"><label>Nivel académico</label>
+            <select id="madre_nivel">
+              <option value="">— Seleccionar —</option>
+              <option>Primario</option>
+              <option>Secundario</option>
+              <option>Técnico</option>
+              <option>Universitario</option>
+              <option>Postgrado</option>
+              <option>Ninguno</option>
+            </select>
+          </div>
+          <div class="field"><label>Profesión u oficio</label><input type="text" id="madre_profesion"></div>
+        </div>
+        <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="madre_direccion">
+        </div>
+        <div class="grid-4" style="margin-top:14px">
+          <div class="field"><label>Tel. Casa</label><input type="tel" id="madre_tel_casa" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Celular</label><input type="tel" id="madre_celular" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Tel. Trabajo</label><input type="tel" id="madre_tel_trabajo"
+              placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
+          <div class="field correo-field"><label>Correo</label>
+            <div class="correo-wrapper"><input type="text" id="madre_correo" placeholder="usuario@gmail.com"
+                autocomplete="off">
+              <div class="correo-suggestions" id="madre_correo_sugg"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- EMERGENCIA -->
-  <div class="form-section">
-    <div class="section-header">🚨 Datos de emergencia</div>
-    <div class="section-body">
-      <div class="grid-3">
-        <div class="field"><label>Enfermedad o alérgico(a)</label><input type="text" id="emerg_enfermedad"></div>
-        <div class="field"><label>Medicamentos que usa</label><input type="text" id="emerg_medicamentos"></div>
-        <div class="field"><label>Nombre del contacto</label><input type="text" id="emerg_contacto_nombre"></div>
-      </div>
-      <div class="grid-3" style="margin-top:14px">
-        <div class="field"><label>Teléfono del contacto</label><input type="tel" id="emerg_contacto_tel" placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
-        <div class="field"><label>Parentesco del contacto</label><input type="text" id="emerg_contacto_parentesco"></div>
+    <!-- TUTOR -->
+    <div class="form-section">
+      <div class="section-header">👤 Datos del Tutor <span style="font-weight:300;font-size:0.8rem">(solo si no vive con
+          los padres)</span></div>
+      <div class="section-body">
+        <div class="grid-4">
+          <div class="field col-span-2"><label>Nombres</label><input type="text" id="tutor_nombres"></div>
+          <div class="field"><label>Parentesco</label><input type="text" id="tutor_parentesco"></div>
+          <div class="field"><label>Cédula</label><input type="text" id="tutor_cedula" placeholder="000-0000000-0"
+              maxlength="13" inputmode="numeric"></div>
+        </div>
+        <div class="grid-3" style="margin-top:14px">
+          <div class="field"><label>Apellidos</label><input type="text" id="tutor_apellidos"></div>
+          <div class="field"><label>Nivel académico</label>
+            <select id="tutor_nivel">
+              <option value="">— Seleccionar —</option>
+              <option>Primario</option>
+              <option>Secundario</option>
+              <option>Técnico</option>
+              <option>Universitario</option>
+              <option>Postgrado</option>
+              <option>Ninguno</option>
+            </select>
+          </div>
+          <div class="field"><label>Profesión u oficio</label><input type="text" id="tutor_profesion"></div>
+        </div>
+        <div class="field" style="margin-top:14px"><label>Dirección</label><input type="text" id="tutor_direccion">
+        </div>
+        <div class="grid-4" style="margin-top:14px">
+          <div class="field"><label>Tel. Casa</label><input type="tel" id="tutor_tel_casa" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Celular</label><input type="tel" id="tutor_celular" placeholder="000-000-0000"
+              maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Tel. Trabajo</label><input type="tel" id="tutor_tel_trabajo"
+              placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
+          <div class="field correo-field"><label>Correo</label>
+            <div class="correo-wrapper"><input type="text" id="tutor_correo" placeholder="usuario@gmail.com"
+                autocomplete="off">
+              <div class="correo-suggestions" id="tutor_correo_sugg"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- DOCUMENTOS -->
-  <div class="form-section">
-    <div class="section-header">📎 Documentos y observaciones</div>
-    <div class="section-body">
-      <div class="grid-2">
-        <div class="field"><label>Documentos pendientes</label><textarea id="documentos_pendientes"></textarea></div>
-        <div class="field"><label>Observaciones</label><textarea id="observaciones"></textarea></div>
-      </div>
-      <div class="field" style="margin-top:14px; max-width:400px">
-        <label>Tiene hermano/a en el centro</label>
-        <input type="text" id="hermano_en_centro" placeholder="Nombre del hermano/a (o dejar vacío)">
+    <!-- HISTORIA CLINICA -->
+    <div class="form-section">
+      <div class="section-header">🏥 Historia clínica</div>
+      <div class="section-body">
+        <div class="grid-2">
+          <div class="field"><label>Enfermedad que padece</label><input type="text" id="enfermedad"></div>
+          <div class="field"><label>¿Ha sido vacunado?</label><select id="vacunado">
+              <option>Sí</option>
+              <option>No</option>
+            </select></div>
+        </div>
+        <div class="subsection-title" style="margin-top:18px">Enfermedades</div>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" id="enf_alergia"> Alergia</label>
+          <label class="check-item"><input type="checkbox" id="enf_diabetes"> Diabetes</label>
+          <label class="check-item"><input type="checkbox" id="enf_asma"> Asma</label>
+          <label class="check-item"><input type="checkbox" id="enf_hepatitis"> Hepatitis</label>
+        </div>
+        <div class="grid-2" style="margin-top:10px">
+          <label class="check-item"><input type="checkbox" id="enf_otra"> Otra enfermedad</label>
+          <div class="field"><input type="text" id="enf_otra_desc" placeholder="Especificar..."></div>
+        </div>
+        <div class="subsection-title" style="margin-top:18px">Vacunas</div>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" id="vac_antipolio"> Antipolio</label>
+          <label class="check-item"><input type="checkbox" id="vac_antisarampion"> Antisarampión</label>
+          <label class="check-item"><input type="checkbox" id="vac_difteria1"> Difteria/Tétano 1</label>
+          <label class="check-item"><input type="checkbox" id="vac_difteria2"> Difteria/Tétano 2</label>
+          <label class="check-item"><input type="checkbox" id="vac_difteria3"> Difteria/Tétano 3</label>
+          <label class="check-item"><input type="checkbox" id="vac_gripe"> Gripe AH1N1</label>
+          <label class="check-item"><input type="checkbox" id="vac_hepatitis"> Hepatitis</label>
+          <label class="check-item"><input type="checkbox" id="vac_meningitis"> Meningitis</label>
+          <label class="check-item"><input type="checkbox" id="vac_tuberculosis"> Tuberculosis</label>
+        </div>
+        <div class="field" style="margin-top:12px; max-width:200px">
+          <label>Covid-19 — Dosis</label>
+          <select id="vac_covid_dosis">
+            <option value="0">Ninguna</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3 o más</option>
+          </select>
+        </div>
       </div>
     </div>
+
+    <!-- EMERGENCIA -->
+    <div class="form-section">
+      <div class="section-header">🚨 Datos de emergencia</div>
+      <div class="section-body">
+        <div class="grid-3">
+          <div class="field"><label>Enfermedad o alérgico(a)</label><input type="text" id="emerg_enfermedad"></div>
+          <div class="field"><label>Medicamentos que usa</label><input type="text" id="emerg_medicamentos"></div>
+          <div class="field"><label>Nombre del contacto</label><input type="text" id="emerg_contacto_nombre"></div>
+        </div>
+        <div class="grid-3" style="margin-top:14px">
+          <div class="field"><label>Teléfono del contacto</label><input type="tel" id="emerg_contacto_tel"
+              placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>
+          <div class="field"><label>Parentesco del contacto</label><input type="text" id="emerg_contacto_parentesco">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTOS -->
+    <div class="form-section">
+      <div class="section-header">📎 Documentos y observaciones</div>
+      <div class="section-body">
+        <div class="grid-2">
+          <div class="field"><label>Documentos pendientes</label><textarea id="documentos_pendientes"></textarea></div>
+          <div class="field"><label>Observaciones</label><textarea id="observaciones"></textarea></div>
+        </div>
+        <div class="field" style="margin-top:14px; max-width:400px">
+          <label>Tiene hermano/a en el centro</label>
+          <input type="text" id="hermano_en_centro" placeholder="Nombre del hermano/a (o dejar vacío)">
+        </div>
+      </div>
+    </div>
+
+    <!-- boton guardar -->
+    <div class="form-section">
+      <div class="section-body" style="display:flex; justify-content:center; padding:30px;">
+        <button class="btn-primary" id="btn-guardar" onclick="guardarYDescargar()">
+          <div class="spinner" id="spinner"></div>
+          <span id="btn-text">💾 Guardar en Drive y descargar</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- limpiar formulario -->
+    <button class="btn-float" onclick="limpiarFormulario()">🧹</button>
+
+    <div style="height:90px"></div>
   </div>
 
-  <div style="height:90px"></div>
-</div>
 
-<!-- ACTION BAR -->
-<div class="action-bar" id="action-bar" style="display:none">
-  <button class="btn-primary" id="btn-guardar" onclick="guardarYDescargar()">
-    <div class="spinner" id="spinner"></div>
-    <span id="btn-text">💾 Guardar en Drive y descargar</span>
-  </button>
-  <button class="btn-secondary" onclick="limpiarFormulario()">🧹 Limpiar</button>
-  <span class="action-hint">Sube el .docx a Google Drive y lo descarga para imprimir en Word</span>
-</div>
 
-<div id="toast"></div>
 
-<!--<script src="https://accounts.google.com/gsi/client" async defer></script>-->
-<script src="app.js"></script>
+  <div id="toast"></div>
+
+  <!--<script src="https://accounts.google.com/gsi/client" async defer></script>-->
+  <script src="app.js"></script>
 </body>
+
 </html>

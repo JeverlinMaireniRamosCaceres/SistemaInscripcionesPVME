@@ -46,13 +46,32 @@ function formatearTelefono(input) {
 function calcularEdad() {
   const fechaInput = document.getElementById('fecha_nacimiento').value;
   const edadInput  = document.getElementById('edad');
-  if (!fechaInput) { edadInput.value = ''; return; }
 
-  const hoy      = new Date();
-  const nacimiento = new Date(fechaInput);
+  if (!fechaInput) {
+    edadInput.value = '';
+    return;
+  }
+
+  const partes = fechaInput.split('/');
+
+  if (partes.length !== 3) {
+    edadInput.value = '';
+    return;
+  }
+
+  const dia = parseInt(partes[0], 10);
+  const mes = parseInt(partes[1], 10) - 1;
+  const anio = parseInt(partes[2], 10);
+
+  const nacimiento = new Date(anio, mes, dia);
+  const hoy = new Date();
+
   let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const mes = hoy.getMonth() - nacimiento.getMonth();
-  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+
+  const m = hoy.getMonth() - nacimiento.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
 
   edadInput.value = edad >= 0 ? edad : '';
 }
@@ -60,17 +79,24 @@ function calcularEdad() {
 // autocompletado de correos con dominios comunes
 const DOMINIOS = ['@gmail.com', '@hotmail.com', '@outlook.com', '@yahoo.com', '@icloud.com'];
 
+  // funcion para cerrar sugerencias de correo
+    function cerrarSugerencias(input, sugg) {
+    sugg.classList.remove('visible');
+    sugg.innerHTML = '';
+    input._activeIndex = -1;
+  }
+
 function iniciarCorreoAutoComplete(inputId, suggId) {
   const input = document.getElementById(inputId);
   const sugg  = document.getElementById(suggId);
   if (!input || !sugg) return;
 
-  let activeIndex = -1;
+  input._activeIndex = -1;
 
   input.addEventListener('input', () => {
     const val = input.value;
     sugg.innerHTML = '';
-    activeIndex = -1;
+    input._activeIndex = -1;
 
     // mostrar sugerencias solo cuando haya un @ o texto antes
     if (!val || val.includes('@')) {
@@ -88,9 +114,11 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
         item.className    = 'correo-sugg-item';
         item.textContent  = prefix + dominio;
         item.addEventListener('mousedown', e => {
-          e.preventDefault(); 
+          e.preventDefault();
+
           input.value = prefix + dominio;
-          sugg.classList.remove('visible');
+
+          cerrarSugerencias(input, sugg);
         });
         sugg.appendChild(item);
       });
@@ -120,33 +148,33 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
     const items = sugg.querySelectorAll('.correo-sugg-item');
     if (!items.length) return;
 
+
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      activeIndex = Math.min(activeIndex + 1, items.length - 1);
+     input._activeIndex = Math.min(input._activeIndex + 1, items.length - 1);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      activeIndex = Math.max(activeIndex - 1, 0);
+      input._activeIndex = Math.max(input._activeIndex - 1, 0);
     } else if (e.key === 'Enter' || e.key === 'Tab') {
-      if (activeIndex >= 0) {
+      if (input._activeIndex >= 0) {
         e.preventDefault();
-        input.value = items[activeIndex].textContent;
-        sugg.classList.remove('visible');
-        activeIndex = -1;
+        input.value = items[input._activeIndex].textContent;
+        cerrarSugerencias(input, sugg);
         return;
       }
     } else if (e.key === 'Escape') {
       sugg.classList.remove('visible');
-      activeIndex = -1;
+      input._activeIndex = -1;
       return;
     }
 
-    items.forEach((item, i) => item.classList.toggle('active', i === activeIndex));
-    if (activeIndex >= 0) input.value = items[activeIndex].textContent;
+    items.forEach((item, i) => item.classList.toggle('active', i === input._activeIndex));
+    if (input._activeIndex >= 0) input.value = items[input._activeIndex].textContent;
   });
 
   // cerrar sugerencias al perder foco
   input.addEventListener('blur', () => {
-    setTimeout(() => sugg.classList.remove('visible'), 150);
+    setTimeout(() => cerrarSugerencias(input, sugg), 150);
   });
 }
 
@@ -158,6 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', () => formatearCedula(el));
   });
+
+  // fechas
+  const fecha = document.getElementById('fecha_nacimiento');
+
+  if (fecha) {
+    fecha.addEventListener('input', () => formatearFecha(fecha));
+    fecha.addEventListener('input', calcularEdad);
+  }
 
   // telefonos
   [
@@ -171,6 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', () => formatearTelefono(el));
   });
+
+
 
   // correos
   iniciarCorreoAutoComplete('correo_estudiante', 'correo_estudiante_sugg');
@@ -235,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // subir el documento a google drive
-async function subirADrive(blob, nombreArchivo) {
+/*async function subirADrive(blob, nombreArchivo) {
   // Convertir el blob a base64 para enviarlo al script
   const buffer     = await blob.arrayBuffer();
   const bytes      = new Uint8Array(buffer);
@@ -252,8 +290,33 @@ async function subirADrive(blob, nombreArchivo) {
   const json = await res.json();
   if (!json.exito) throw new Error(json.mensaje);
   return json;
+}*/
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
+async function subirADrive(blob, nombreArchivo) {
+  const archivo = await blobToBase64(blob);
+
+  const res = await fetch("/.netlify/functions/subir-drive", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nombreArchivo,
+      archivo
+    })
+  });
+
+  if (!res.ok) throw new Error("Error en Netlify Function");
+
+  return await res.json();
+}
 
 // guardar y descargar documentos en la maquina
 const val = id => { const e = document.getElementById(id); return e ? e.value || '' : ''; };
@@ -394,3 +457,15 @@ function showToast(msg, type = 'info') {
   t._t = setTimeout(() => { t.className = ''; }, 5000);
 }
 
+// funcion para formatear fecha
+function formatearFecha(input) {
+  let v = input.value.replace(/\D/g, '').slice(0, 8);
+
+  if (v.length >= 5) {
+    input.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+  } else if (v.length >= 3) {
+    input.value = v.slice(0,2) + '/' + v.slice(2);
+  } else {
+    input.value = v;
+  }
+}

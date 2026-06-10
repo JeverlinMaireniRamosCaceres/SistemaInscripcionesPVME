@@ -1,0 +1,464 @@
+:root {
+  --navy:   #1a3a5c;
+  --blue:   #2563eb;
+  --sky:    #d0e4f5;
+  --light:  #f4f8fc;
+  --text:   #1e293b;
+  --muted:  #64748b;
+  --border: #cbd5e1;
+  --green:  #16a34a;
+  --red:    #dc2626;
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body { 
+    font-family: 'DM Sans', sans-serif; 
+    background: var(--light); color: var(--text); 
+    min-height: 100vh; 
+}
+
+/* estilos del header */
+.site-header {
+  background: var(--navy); 
+  color: white; 
+  padding: 18px 32px;
+  display: flex; 
+  align-items: center; 
+  gap: 20px;
+  position: sticky; 
+  top: 0; 
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+.site-header h1 { 
+    font-family: 'DM Serif Display', serif; 
+    font-size: 1.15rem; 
+    font-weight: 400; 
+    line-height: 1.3; 
+}
+
+.site-header h1 span { 
+    font-size: 0.78rem; 
+    color: #93c5fd; 
+    display: block; 
+    font-weight: 300; 
+}
+
+.header-badge {
+  margin-left: auto; 
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2); 
+  border-radius: 20px;
+  padding: 6px 16px; 
+  font-size: 0.78rem; 
+  color: #bfdbfe;
+}
+
+/* estilos del login */
+#login-screen {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center; 
+  min-height: calc(100vh - 72px); 
+  padding: 40px; 
+  text-align: center;
+}
+
+.login-card {
+  background: white; 
+  border-radius: 16px; 
+  padding: 52px 48px;
+  max-width: 440px; 
+  width: 100%;
+  box-shadow: 0 4px 32px rgba(26,58,92,0.12); 
+  border: 1px solid var(--border);
+}
+
+.login-card h2 { 
+    font-family: 'DM Serif Display', serif; 
+    font-size: 1.6rem; 
+    color: var(--navy); 
+    margin-bottom: 10px; 
+}
+
+.login-card p  { 
+    color: var(--muted); 
+    font-size: 0.9rem; 
+    margin-bottom: 32px; 
+    line-height: 1.6; 
+}
+
+.btn-google {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 12px;
+  background: white; 
+  color: #3c4043; 
+  border: 1.5px solid var(--border);
+  border-radius: 10px; 
+  padding: 14px 28px; 
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif; 
+  font-weight: 500;
+  cursor: pointer; 
+  width: 100%; 
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.btn-google:hover { 
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12); 
+    background: #f8f9fa; 
+}
+
+/* estilos del formulario */
+#form-screen { 
+    display: none; 
+    padding: 32px; 
+    max-width: 1100px; 
+    margin: 0 auto; 
+}
+
+.status-bar {
+  background: white; 
+  border: 1px solid var(--border); 
+  border-radius: 12px;
+  padding: 14px 20px; 
+  display: flex; 
+  align-items: center; 
+  gap: 14px;
+  margin-bottom: 28px; 
+  font-size: 0.85rem; 
+  flex-wrap: wrap;
+}
+.status-bar .user-info  { 
+    color: var(--navy); 
+    font-weight: 500; 
+}
+
+.status-bar .drive-info { 
+    color: var(--green); 
+}
+
+.status-bar .counter {
+  margin-left: auto; 
+  background: var(--sky); 
+  color: var(--navy);
+  border-radius: 20px; 
+  padding: 4px 14px; 
+  font-weight: 600; 
+  font-size: 0.82rem;
+}
+
+.form-section  { 
+    background: white; 
+    border-radius: 12px; 
+    border: 1px solid var(--border); 
+    margin-bottom: 20px; 
+    overflow: hidden; 
+}
+
+.section-header { 
+    background: var(--navy); 
+    color: white; 
+    padding: 12px 20px; 
+    font-weight: 600; 
+    font-size: 0.88rem; 
+    letter-spacing: 0.05em; 
+    text-transform: uppercase; 
+}
+
+.section-body  { 
+    padding: 20px; 
+}
+
+/* estilos de las cuadrículas */
+.grid-2 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 16px; 
+}
+
+.grid-3 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 16px; 
+}
+
+.grid-4 { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    gap: 16px; 
+}
+
+.grid-7 { 
+    display: grid; 
+    grid-template-columns: 1.4fr 1.4fr 1.4fr 0.8fr 0.8fr 0.8fr 0.8fr; 
+    gap: 12px; 
+}
+
+.col-span-2 { 
+    grid-column: span 2; 
+}
+
+/* estilos de los campos */
+.field { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+
+.field label { 
+    font-size: 0.75rem; 
+    font-weight: 600; 
+    color: var(--navy); 
+    text-transform: uppercase; 
+    letter-spacing: 0.04em; 
+}
+
+.field input,
+.field select,
+.field textarea {
+  border: 1.5px solid var(--border); 
+  border-radius: 8px; 
+  padding: 9px 12px;
+  font-size: 0.9rem; 
+  font-family: 'DM Sans', sans-serif; 
+  color: var(--text);
+  background: white; 
+  transition: border 0.2s, box-shadow 0.2s; 
+  width: 100%;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none; 
+  border-color: var(--blue); 
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.field input[readonly] { 
+    background: #f8fafc; 
+    color: var(--muted); 
+    cursor: default; 
+}
+
+.field textarea { 
+    resize: vertical; 
+    min-height: 70px; 
+}
+
+/* estilos del autocomplete de correo */
+.correo-field { 
+    position: relative; 
+}
+
+.correo-wrapper { 
+    position: relative; 
+}
+
+.correo-suggestions {
+  position: absolute; 
+  top: calc(100% + 2px); 
+  left: 0; right: 0;
+  background: white; 
+  border: 1.5px solid var(--blue); 
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  z-index: 50; 
+  display: none; 
+  overflow: hidden;
+}
+.correo-suggestions.visible { 
+    display: block; 
+}
+
+.correo-sugg-item {
+  padding: 9px 12px; 
+  font-size: 0.9rem; 
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif; 
+  color: var(--text);
+  transition: background 0.15s;
+}
+.correo-sugg-item:hover,
+.correo-sugg-item.active { 
+    background: var(--sky); 
+    color: var(--navy); 
+    font-weight: 500; 
+}
+
+/* estilos de los checkboxes */
+.check-group { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+    gap: 10px; 
+    padding: 4px 0; 
+}
+
+.check-item  { 
+    display: flex; 
+    align-items: center;
+    gap: 8px; 
+    font-size: 0.88rem; 
+    cursor: pointer; 
+}
+
+.check-item input[type="checkbox"] { 
+    width: 17px; 
+    height: 17px; 
+    accent-color: var(--navy); 
+    cursor: pointer; 
+    flex-shrink: 0; 
+}
+
+.subsection-title {
+  font-size: 0.8rem; 
+  font-weight: 700; 
+  color: var(--navy);
+  text-transform: uppercase; 
+  letter-spacing: 0.05em;
+  margin: 14px 0 8px; 
+  padding-bottom: 5px; 
+  border-bottom: 2px solid var(--sky);
+}
+
+/* estilos de la barra de acciones */
+.action-bar {
+  position: sticky; 
+  bottom: 0; 
+  background: white; 
+  border-top: 2px solid var(--navy);
+  padding: 18px 32px; 
+  display: flex; 
+  gap: 14px; 
+  align-items: center;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1); 
+  z-index: 50;
+}
+
+.btn-primary {
+  background: var(--navy); 
+  color: white; 
+  border: none; 
+  border-radius: 10px;
+  padding: 13px 32px; 
+  font-family: 'DM Sans', sans-serif; 
+  font-size: 0.95rem;
+  font-weight: 600; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover   { 
+    background: #142e4a; 
+}
+
+.btn-primary:active  { 
+    transform: scale(0.98); 
+}
+
+.btn-primary:disabled { 
+    background: var(--muted); 
+    cursor: not-allowed; 
+}
+
+.btn-secondary {
+  background: transparent; 
+  color: var(--navy); 
+  border: 2px solid var(--navy);
+  border-radius: 10px; 
+  padding: 11px 24px; 
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; 
+  font-weight: 500; 
+  cursor: pointer; 
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover { 
+    background: var(--sky); 
+}
+
+.action-hint { 
+    font-size: 0.8rem; 
+    color: var(--muted); 
+    margin-left: auto; 
+}
+
+/* estilos del spinner */
+.spinner {
+  width: 18px; 
+  height: 18px; 
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white; 
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite; 
+  display: none;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* estilos del toast */
+#toast {
+  position: fixed; 
+  bottom: 90px; 
+  right: 28px; 
+  padding: 14px 22px;
+  border-radius: 10px; 
+  font-size: 0.9rem; 
+  font-weight: 500; 
+  color: white;
+  z-index: 200; 
+  transform: translateY(20px); 
+  opacity: 0; 
+  transition: all 0.3s;
+  max-width: 380px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); 
+  pointer-events: none;
+}
+
+#toast.show    { 
+    transform: translateY(0); 
+    opacity: 1; 
+}
+
+#toast.success { 
+    background: var(--green); 
+}
+
+#toast.error   { 
+    background: var(--red); 
+}
+
+#toast.info    { 
+    background: var(--navy); 
+}
+
+/* estilos de impresión */
+@media print {
+  .site-header, .action-bar, #toast, .status-bar { display: none !important; }
+  #form-screen { padding: 0; max-width: 100%; }
+  .form-section { break-inside: avoid; }
+}
+
+/* estilos responsivos */
+@media (max-width: 768px) {
+  #form-screen { padding: 16px; }
+  .grid-2, .grid-3, .grid-4, .grid-7 { grid-template-columns: 1fr; }
+  .col-span-2 { grid-column: span 1; }
+  .action-bar { padding: 14px 16px; flex-wrap: wrap; }
+  .action-hint { display: none; }
+  .login-card  { padding: 36px 24px; }
+}

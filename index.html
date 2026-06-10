@@ -54,7 +54,7 @@
       <span class="user-info" id="user-display">—</span>
       <span style="color:var(--border)">|</span>
       <span class="drive-info">📁 Google Drive → Inscripciones 2026 - 2027</span>
-      <span class="counter" id="counter">Guardados: 0</span>
+     <!-- <span class="counter" id="counter">Guardados: 0</span> -->
     </div>
 
     <!-- INSTITUCIÓN -->
@@ -117,7 +117,17 @@
             </select></div>
         </div>
         <div class="grid-4" style="margin-top:14px">
-          <div class="field"><label>Nacionalidad</label><input type="text" id="nacionalidad" value="Dominicana"></div>
+          <div class="field">
+          <label>Nacionalidad</label>
+          <input type="text" id="nacionalidad" list="nacionalidades-list" autocomplete="off">
+          
+          <datalist id="nacionalidades-list">
+            <option value="Dominicana"></option>
+            <option value="Haitiana"></option>
+            <option value="Venezolana"></option>
+            <option value="Estadounidense"></option>
+            </datalist>
+        </div>
           <div class="field"><label>Pasaporte</label><input type="text" id="pasaporte"></div>
           <div class="field"><label>Teléfono</label><input type="tel" id="telefono_estudiante"
               placeholder="000-000-0000" maxlength="12" inputmode="numeric"></div>

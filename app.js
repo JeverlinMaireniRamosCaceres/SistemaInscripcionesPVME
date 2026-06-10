@@ -3,7 +3,7 @@
 //const GOOGLE_CLIENT_ID = '824761200010-golr4lnu260ou3mbhvjj8udl8qcdvlr7.apps.googleusercontent.com';
 //const NOMBRE_CARPETA   = 'Inscripciones 2026';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkdGFo1l9n9v9V1Ef6M6YC5s_YJBdgCg9NINAHv_CtdnEIejyLGrBSKGr06NR1TgxDpQ/exec';
-const PLANTILLA        = 'plantilla.docx';
+const PLANTILLA = 'plantilla.docx';
 
 let plantillaDocx = null;
 
@@ -25,8 +25,8 @@ function formatearCedula(input) {
   let digits = input.value.replace(/\D/g, '').slice(0, 11);
   let result = digits;
 
-  if (digits.length > 3)  result = digits.slice(0,3)  + '-' + digits.slice(3);
-  if (digits.length > 10) result = digits.slice(0,3)  + '-' + digits.slice(3,10) + '-' + digits.slice(10);
+  if (digits.length > 3) result = digits.slice(0, 3) + '-' + digits.slice(3);
+  if (digits.length > 10) result = digits.slice(0, 3) + '-' + digits.slice(3, 10) + '-' + digits.slice(10);
 
   input.value = result;
 }
@@ -36,8 +36,8 @@ function formatearTelefono(input) {
   let digits = input.value.replace(/\D/g, '').slice(0, 10);
   let result = digits;
 
-  if (digits.length > 3) result = digits.slice(0,3) + '-' + digits.slice(3);
-  if (digits.length > 6) result = digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
+  if (digits.length > 3) result = digits.slice(0, 3) + '-' + digits.slice(3);
+  if (digits.length > 6) result = digits.slice(0, 3) + '-' + digits.slice(3, 6) + '-' + digits.slice(6);
 
   input.value = result;
 }
@@ -45,7 +45,7 @@ function formatearTelefono(input) {
 // calcular edad a partir de fecha de nacimiento
 function calcularEdad() {
   const fechaInput = document.getElementById('fecha_nacimiento').value;
-  const edadInput  = document.getElementById('edad');
+  const edadInput = document.getElementById('edad');
 
   if (!fechaInput) {
     edadInput.value = '';
@@ -79,16 +79,16 @@ function calcularEdad() {
 // autocompletado de correos con dominios comunes
 const DOMINIOS = ['@gmail.com', '@hotmail.com', '@outlook.com', '@yahoo.com', '@icloud.com'];
 
-  // funcion para cerrar sugerencias de correo
-    function cerrarSugerencias(input, sugg) {
-    sugg.classList.remove('visible');
-    sugg.innerHTML = '';
-    input._activeIndex = -1;
-  }
+// funcion para cerrar sugerencias de correo
+function cerrarSugerencias(input, sugg) {
+  sugg.classList.remove('visible');
+  sugg.innerHTML = '';
+  input._activeIndex = -1;
+}
 
 function iniciarCorreoAutoComplete(inputId, suggId) {
   const input = document.getElementById(inputId);
-  const sugg  = document.getElementById(suggId);
+  const sugg = document.getElementById(suggId);
   if (!input || !sugg) return;
 
   input._activeIndex = -1;
@@ -100,9 +100,9 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
 
     // mostrar sugerencias solo cuando haya un @ o texto antes
     if (!val || val.includes('@')) {
-      const atPos  = val.indexOf('@');
+      const atPos = val.indexOf('@');
       const prefix = atPos >= 0 ? val.slice(0, atPos) : val;
-      const typed  = atPos >= 0 ? val.slice(atPos)    : '';
+      const typed = atPos >= 0 ? val.slice(atPos) : '';
 
       if (!prefix) { sugg.classList.remove('visible'); return; }
 
@@ -111,8 +111,8 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
 
       matches.forEach((dominio, i) => {
         const item = document.createElement('div');
-        item.className    = 'correo-sugg-item';
-        item.textContent  = prefix + dominio;
+        item.className = 'correo-sugg-item';
+        item.textContent = prefix + dominio;
         item.addEventListener('mousedown', e => {
           e.preventDefault();
 
@@ -130,17 +130,20 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
       const prefix = val;
       DOMINIOS.forEach(dominio => {
         const item = document.createElement('div');
-        item.className   = 'correo-sugg-item';
+        item.className = 'correo-sugg-item';
         item.textContent = prefix + dominio;
         item.addEventListener('mousedown', e => {
           e.preventDefault();
           input.value = prefix + dominio;
-          sugg.classList.remove('visible');
+
+          cerrarSugerencias(input, sugg);
         });
         sugg.appendChild(item);
       });
       sugg.classList.add('visible');
+
     }
+
   });
 
   // navegacion con teclado
@@ -151,7 +154,7 @@ function iniciarCorreoAutoComplete(inputId, suggId) {
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-     input._activeIndex = Math.min(input._activeIndex + 1, items.length - 1);
+      input._activeIndex = Math.min(input._activeIndex + 1, items.length - 1);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       input._activeIndex = Math.max(input._activeIndex - 1, 0);
@@ -212,12 +215,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // correos
   iniciarCorreoAutoComplete('correo_estudiante', 'correo_estudiante_sugg');
-  iniciarCorreoAutoComplete('padre_correo',      'padre_correo_sugg');
-  iniciarCorreoAutoComplete('madre_correo',      'madre_correo_sugg');
-  iniciarCorreoAutoComplete('tutor_correo',      'tutor_correo_sugg');
+  iniciarCorreoAutoComplete('padre_correo', 'padre_correo_sugg');
+  iniciarCorreoAutoComplete('madre_correo', 'madre_correo_sugg');
+  iniciarCorreoAutoComplete('tutor_correo', 'tutor_correo_sugg');
 
-  document.getElementById('form-screen').style.display = 'block';
-    document.getElementById('action-bar').style.display  = 'flex';
+  // se guardan los elementos en variables primero
+  const formScreen = document.getElementById('form-screen');
+  const actionBar = document.getElementById('action-bar');
+
+  // solo si existen en la pagina actual, se cambia el estilo
+  if (formScreen) {
+    formScreen.style.display = 'block';
+  }
+
+  if (actionBar) {
+    actionBar.style.display = 'flex';
+  }
 
 });
 
@@ -323,7 +336,7 @@ const val = id => { const e = document.getElementById(id); return e ? e.value ||
 const chk = id => { const e = document.getElementById(id); return e && e.checked ? '☑' : '☐'; };
 
 async function guardarYDescargar() {
-  const primerNombre   = val('primer_nombre').trim();
+  const primerNombre = val('primer_nombre').trim();
   const primerApellido = val('primer_apellido').trim();
 
   if (!primerNombre || !primerApellido) { showToast('Ingresa al menos el nombre y apellido del estudiante.', 'error'); return; }
@@ -334,50 +347,58 @@ async function guardarYDescargar() {
   showToast('Generando documento...', 'info');
 
   try {
-    const hoy           = new Date();
-    const fechaStr      = hoy.toLocaleDateString('es-DO', { day:'2-digit', month:'2-digit', year:'numeric' });
-    const nombreArchivo = `${primerApellido}_${primerNombre}_${hoy.toISOString().slice(0,10)}.docx`;
+    const hoy = new Date();
+    const fechaStr = hoy.toLocaleDateString('es-DO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+    // buscar segundo nombre
+    const segundoNombre = val('segundo_nombre').trim();
+
+    // si existe, se extrae la inicial, se convierte a mayuscula y se agrega un guion bajo, sino queda vacio
+    const inicialSegundo = segundoNombre ? `${segundoNombre.charAt(0).toUpperCase()}_` : '';
+
+    // se arma el nombre del archivo con el formato: PrimerNombre_InicialSegundo_PrimerApellido_Fecha.docx
+    const nombreArchivo = `${primerNombre}_${inicialSegundo}${primerApellido}_${hoy.toISOString().slice(0, 10)}.docx`;
 
     const datos = {
       grado: val('grado'),
-      primer_nombre: primerNombre,           segundo_nombre: val('segundo_nombre'),
-      primer_apellido: primerApellido,        segundo_apellido: val('segundo_apellido'),
-      cedula: val('cedula'),                  fecha_nacimiento: val('fecha_nacimiento'),
-      edad: val('edad'),                      sexo: val('sexo'),
-      nacionalidad: val('nacionalidad'),      pasaporte: val('pasaporte'),
+      primer_nombre: primerNombre, segundo_nombre: val('segundo_nombre'),
+      primer_apellido: primerApellido, segundo_apellido: val('segundo_apellido'),
+      cedula: val('cedula'), fecha_nacimiento: val('fecha_nacimiento'),
+      edad: val('edad'), sexo: val('sexo'),
+      nacionalidad: val('nacionalidad'), pasaporte: val('pasaporte'),
       telefono_estudiante: val('telefono_estudiante'), correo_estudiante: val('correo_estudiante'),
-      acta_provincia: val('acta_provincia'),  acta_municipio: val('acta_municipio'),
-      acta_oficialia: val('acta_oficialia'),  acta_libro: val('acta_libro'),
-      acta_folio: val('acta_folio'),          acta_numero: val('acta_numero'),
+      acta_provincia: val('acta_provincia'), acta_municipio: val('acta_municipio'),
+      acta_oficialia: val('acta_oficialia'), acta_libro: val('acta_libro'),
+      acta_folio: val('acta_folio'), acta_numero: val('acta_numero'),
       acta_anio: val('acta_anio'),
-      dir_calle: val('dir_calle'),            dir_barrio: val('dir_barrio'),
-      dir_provincia: val('dir_provincia'),    dir_municipio: val('dir_municipio'),
-      dir_no_casa: val('dir_no_casa'),        dir_telefono: val('dir_telefono'),
+      dir_calle: val('dir_calle'), dir_barrio: val('dir_barrio'),
+      dir_provincia: val('dir_provincia'), dir_municipio: val('dir_municipio'),
+      dir_no_casa: val('dir_no_casa'), dir_telefono: val('dir_telefono'),
       dir_celular: val('dir_celular'),
-      padre_nombres: val('padre_nombres'),    padre_apellidos: val('padre_apellidos'),
-      padre_cedula: val('padre_cedula'),      padre_nivel: val('padre_nivel'),
+      padre_nombres: val('padre_nombres'), padre_apellidos: val('padre_apellidos'),
+      padre_cedula: val('padre_cedula'), padre_nivel: val('padre_nivel'),
       padre_profesion: val('padre_profesion'), padre_direccion: val('padre_direccion'),
-      padre_tel_casa: val('padre_tel_casa'),  padre_celular: val('padre_celular'),
+      padre_tel_casa: val('padre_tel_casa'), padre_celular: val('padre_celular'),
       padre_tel_trabajo: val('padre_tel_trabajo'), padre_correo: val('padre_correo'),
-      madre_nombres: val('madre_nombres'),    madre_apellidos: val('madre_apellidos'),
-      madre_cedula: val('madre_cedula'),      madre_nivel: val('madre_nivel'),
+      madre_nombres: val('madre_nombres'), madre_apellidos: val('madre_apellidos'),
+      madre_cedula: val('madre_cedula'), madre_nivel: val('madre_nivel'),
       madre_profesion: val('madre_profesion'), madre_direccion: val('madre_direccion'),
-      madre_tel_casa: val('madre_tel_casa'),  madre_celular: val('madre_celular'),
+      madre_tel_casa: val('madre_tel_casa'), madre_celular: val('madre_celular'),
       madre_tel_trabajo: val('madre_tel_trabajo'), madre_correo: val('madre_correo'),
-      tutor_nombres: val('tutor_nombres'),    tutor_parentesco: val('tutor_parentesco'),
+      tutor_nombres: val('tutor_nombres'), tutor_parentesco: val('tutor_parentesco'),
       tutor_apellidos: val('tutor_apellidos'), tutor_cedula: val('tutor_cedula'),
-      tutor_nivel: val('tutor_nivel'),        tutor_profesion: val('tutor_profesion'),
+      tutor_nivel: val('tutor_nivel'), tutor_profesion: val('tutor_profesion'),
       tutor_direccion: val('tutor_direccion'), tutor_tel_casa: val('tutor_tel_casa'),
-      tutor_celular: val('tutor_celular'),    tutor_tel_trabajo: val('tutor_tel_trabajo'),
+      tutor_celular: val('tutor_celular'), tutor_tel_trabajo: val('tutor_tel_trabajo'),
       tutor_correo: val('tutor_correo'),
-      enfermedad: val('enfermedad'),          vacunado: val('vacunado'),
-      enf_alergia: chk('enf_alergia'),        enf_diabetes: chk('enf_diabetes'),
-      enf_asma: chk('enf_asma'),              enf_hepatitis: chk('enf_hepatitis'),
-      enf_otra: chk('enf_otra'),              enf_otra_desc: val('enf_otra_desc'),
-      vac_antipolio: chk('vac_antipolio'),    vac_antisarampion: chk('vac_antisarampion'),
-      vac_difteria1: chk('vac_difteria1'),    vac_difteria2: chk('vac_difteria2'),
-      vac_difteria3: chk('vac_difteria3'),    vac_gripe: chk('vac_gripe'),
-      vac_hepatitis: chk('vac_hepatitis'),    vac_meningitis: chk('vac_meningitis'),
+      enfermedad: val('enfermedad'), vacunado: val('vacunado'),
+      enf_alergia: chk('enf_alergia'), enf_diabetes: chk('enf_diabetes'),
+      enf_asma: chk('enf_asma'), enf_hepatitis: chk('enf_hepatitis'),
+      enf_otra: chk('enf_otra'), enf_otra_desc: val('enf_otra_desc'),
+      vac_antipolio: chk('vac_antipolio'), vac_antisarampion: chk('vac_antisarampion'),
+      vac_difteria1: chk('vac_difteria1'), vac_difteria2: chk('vac_difteria2'),
+      vac_difteria3: chk('vac_difteria3'), vac_gripe: chk('vac_gripe'),
+      vac_hepatitis: chk('vac_hepatitis'), vac_meningitis: chk('vac_meningitis'),
       vac_tuberculosis: chk('vac_tuberculosis'), vac_covid_dosis: val('vac_covid_dosis'),
       emerg_enfermedad: val('emerg_enfermedad'),
       emerg_medicamentos: val('emerg_medicamentos'),
@@ -391,26 +412,32 @@ async function guardarYDescargar() {
     };
 
     // Generar word con docxtemplater
-    const zip         = new PizZip(plantillaDocx);
+    const zip = new PizZip(plantillaDocx);
     const docTemplate = new docxtemplater(zip, {
       paragraphLoop: true,
-      linebreaks:    true,
-      nullGetter:    () => '',      
-      delimiters:    { start: '{{', end: '}}' }
+      linebreaks: true,
+      nullGetter: () => '',
+      delimiters: { start: '{{', end: '}}' }
     });
     docTemplate.setData(datos);
     docTemplate.render();
     const blob = docTemplate.getZip().generate({
-      type:     'blob',
+      type: 'blob',
       mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
 
-    // subir a Google Drive
-    showToast('Subiendo a Google Drive...', 'info');
-    await subirADrive(blob, nombreArchivo);
-
-    // descargar localmente
+    // paso 1 - descargar primero localmente
     saveAs(blob, nombreArchivo);
+    showToast('✅ Documento descargado. Subiendo a Drive...', 'info');
+
+    // paso 2 - subir a Drive por separado
+    try {
+      await subirADrive(blob, nombreArchivo);
+      showToast(`✅ "${nombreArchivo}" guardado en Drive correctamente.`, 'success');
+    } catch (driveErr) {
+      console.error('Error Drive:', driveErr);
+      showToast(`⚠️ Descargado OK, pero falló Drive: ${driveErr.message}`, 'error');
+    }
 
     /*contadorLocal++;
     sessionStorage.setItem('cnt', contadorLocal);
@@ -432,27 +459,31 @@ async function guardarYDescargar() {
 function limpiarFormulario() {
   document.querySelectorAll('#form-screen input:not([readonly]), #form-screen select, #form-screen textarea')
     .forEach(el => {
-      if      (el.type === 'checkbox') el.checked = false;
+      if (el.type === 'checkbox') el.checked = false;
       else if (el.tagName === 'SELECT') el.selectedIndex = 0;
-      else    el.value = '';
+      else el.value = '';
     });
+
+  const edadInput = document.getElementById('edad');
+  if (edadInput) edadInput.value = '';
+
   // restaurar valores por defecto
-  document.getElementById('nacionalidad').value = 'Dominicana';
+  document.getElementById('nacionalidad').value = '';
   document.getElementById('primer_nombre').focus();
   showToast('Formulario listo para el siguiente estudiante.', 'info');
 }
 
 // codigo de la ui
 function setBusy(busy) {
-  document.getElementById('btn-guardar').disabled     = busy;
-  document.getElementById('spinner').style.display    = busy ? 'block' : 'none';
-  document.getElementById('btn-text').textContent     = busy ? 'Procesando...' : '💾 Guardar en Drive y Descargar';
+  document.getElementById('btn-guardar').disabled = busy;
+  document.getElementById('spinner').style.display = busy ? 'block' : 'none';
+  document.getElementById('btn-text').textContent = busy ? 'Procesando...' : '💾 Guardar en Drive y Descargar';
 }
 
 function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className   = 'show ' + type;
+  t.className = 'show ' + type;
   clearTimeout(t._t);
   t._t = setTimeout(() => { t.className = ''; }, 5000);
 }
@@ -462,9 +493,9 @@ function formatearFecha(input) {
   let v = input.value.replace(/\D/g, '').slice(0, 8);
 
   if (v.length >= 5) {
-    input.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+    input.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
   } else if (v.length >= 3) {
-    input.value = v.slice(0,2) + '/' + v.slice(2);
+    input.value = v.slice(0, 2) + '/' + v.slice(2);
   } else {
     input.value = v;
   }

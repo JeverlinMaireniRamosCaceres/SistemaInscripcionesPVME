@@ -317,7 +317,7 @@ function blobToBase64(blob) {
 async function subirADrive(blob, nombreArchivo) {
   const archivo = await blobToBase64(blob);
 
-  const res = await fetch("http://localhost:9000/.netlify/functions/subir-drive", {
+  const res = await fetch("/.netlify/functions/subir-drive", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

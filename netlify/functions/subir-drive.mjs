@@ -1,82 +1,62 @@
-import { google } from "googleapis";
-import { Readable } from "stream";
-
-async function getAccessToken() {
-  const res = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      client_id:     process.env.GOOGLE_CLIENT_ID,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
-      grant_type:    'refresh_token'
-    })
-  });
-  const data = await res.json();
-  if (!data.access_token) throw new Error('No se pudo obtener access token: ' + JSON.stringify(data));
-  return data.access_token;
-}
+import { Dropbox } from "dropbox";
 
 export const handler = async (event) => {
-  console.log('=== FUNCIÓN INICIADA ===');
+  console.log('=== FUNCIÓN INICIADA (DROPBOX) ===');
   console.log('Method:', event.httpMethod);
-  console.log('Body tamaño:', event.body?.length);
 
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+      },
       body: ''
     };
   }
 
   try {
-    // 1. Parsear el body
+    // 1. Parsear el archivo del formulario
     const { nombreArchivo, archivo } = JSON.parse(event.body);
-    console.log('Archivo recibido:', nombreArchivo);
+    console.log('Archivo recibido para Dropbox:', nombreArchivo);
 
-    // 2. Validar variables de entorno
-    if (!process.env.GOOGLE_CLIENT_ID)     throw new Error('Variable GOOGLE_CLIENT_ID no definida');
-    if (!process.env.GOOGLE_CLIENT_SECRET) throw new Error('Variable GOOGLE_CLIENT_SECRET no definida');
-    if (!process.env.GOOGLE_REFRESH_TOKEN) throw new Error('Variable GOOGLE_REFRESH_TOKEN no definida');
-    if (!process.env.DRIVE_FOLDER_ID)      throw new Error('Variable DRIVE_FOLDER_ID no definida');
+    // 2. Validar que las credenciales estén cargadas
+    if (!process.env.DROPBOX_REFRESH_TOKEN) throw new Error('Variable DROPBOX_REFRESH_TOKEN no definida');
+    if (!process.env.DROPBOX_APP_KEY)       throw new Error('Variable DROPBOX_APP_KEY no definida');
+    if (!process.env.DROPBOX_APP_SECRET)    throw new Error('Variable DROPBOX_APP_SECRET no definida');
 
-    // 3. Obtener access token
-    const accessToken = await getAccessToken();
-    console.log('Access token obtenido OK');
-
-    // 4. Convertir base64 a stream
-    const buffer = Buffer.from(archivo, 'base64');
-    const stream = Readable.from(buffer);
-
-    // 5. Autenticar con Google usando el access token
-    const auth = new google.auth.OAuth2();
-    auth.setCredentials({ access_token: accessToken });
-
-    // 6. Subir el archivo
-    const drive = google.drive({ version: 'v3', auth });
-    const response = await drive.files.create({
-      requestBody: {
-        name:     nombreArchivo,
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        parents:  [process.env.DRIVE_FOLDER_ID],
-      },
-      media: {
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        body:     stream,
-      },
+    // 3. Conectar a la API con renovación de token automática
+    const dbx = new Dropbox({
+      clientId: process.env.DROPBOX_APP_KEY,
+      clientSecret: process.env.DROPBOX_APP_SECRET,
+      refreshToken: process.env.DROPBOX_REFRESH_TOKEN
     });
 
-    console.log('Archivo subido, ID:', response.data.id);
+    // 4. Convertir la cadena Base64 a un Buffer binario nativo
+    const bufferArchivo = Buffer.from(archivo, 'base64');
+
+    console.log('Enviando binario a la carpeta de Dropbox...');
+
+    // 5. Subir el archivo (Se guardará directamente en la raíz de tu carpeta de la app)
+    const response = await dbx.filesUpload({
+      path: `/${nombreArchivo}`,
+      contents: bufferArchivo,
+      mode: { '.tag': 'overwrite' },
+      autorename: true,
+      mute: false
+    });
+
+    console.log('¡ÉXITO ROTUNDO! Guardado en Dropbox:', response.result.path_display);
 
     return {
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ ok: true, fileId: response.data.id }),
+      body: JSON.stringify({ ok: true, path: response.result.path_display }),
     };
 
   } catch (err) {
-    console.log('ERROR:', err.message);
+    console.log('ERROR CRÍTICO EN DROPBOX:', err.message);
     return {
       statusCode: 500,
       headers: { 'Access-Control-Allow-Origin': '*' },
